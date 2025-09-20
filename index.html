@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flux Circuit Academy | Futuristic Electronics Education</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6e3bff;
+      --secondary: #00d8ff;
+      --dark: #0f172a;
+      --darker: #0a0e1a;
+      --light: #cbd5e1;
+      --lighter: #f1f5f9;
+      --success: #00ff9d;
+      --warning: #ffcc00;
+      --danger: #ff3366;
+      --card-bg: rgba(30, 41, 59, 0.6);
+      --glow: 0 0 10px rgba(110, 59, 255, 0.7);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+      color: var(--lighter);
+      min-height: 100vh;
+      line-height: 1.6;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 15% 50%, rgba(110, 59, 255, 0.13) 0%, transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(0, 216, 255, 0.1) 0%, transparent 25%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--lighter);
+    }
+    
+    .logo i {
+      color: var(--secondary);
+      text-shadow: var(--glow);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    
+    nav a {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s, text-shadow 0.3s;
+      position: relative;
+    }
+    
+    nav a:hover {
+      color: var(--secondary);
+      text-shadow: var(--glow);
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary);
+      transition: width 0.3s;
+    }
+    
+    nav a:hover::after {
+      width: 100%;
+    }
+    
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 3rem 1rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: var(--light);
+    }
+    
+    .cta-button {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 216, 255, 0.3);
+    }
+    
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .lesson-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .lesson-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      border-color: rgba(110, 59, 255, 0.3);
+    }
+    
+    .card-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .card-header h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+    }
+    
+    .card-header i {
+      color: var(--secondary);
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+    }
+    
+    .circuit-img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s;
+    }
+    
+    .lesson-card:hover .circuit-img {
+      transform: scale(1.02);
+    }
+    
+    .card-content p {
+      margin-bottom: 1.5rem;
+      color: var(--light);
+    }
+    
+    .interactive-area {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .simulation {
+      height: 200px;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--light);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .simulation::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      animation: scan 3s linear infinite;
+    }
+    
+    @keyframes scan {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    .controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .btn {
+      padding: 0.5rem 1rem;
+      background: rgba(30, 41, 59, 0.8);
+      color: var(--lighter);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex: 1;
+    }
+    
+    .btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .btn-primary:hover {
+      background: var(--secondary);
+      border-color: var(--secondary);
+    }
+    
+    .progress {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--light);
+    }
+    
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 3px;
+      width: 0%;
+      transition: width 1s ease-in-out;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--light);
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .lessons-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      nav ul {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-bolt"></i>
+        <span>Flux Circuit Academy</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Courses</a></li>
+          <li><a href="#">Simulations</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <section class="hero">
+      <h1>Master Electronics with Interactive Simulations</h1>
+      <p>Learn electronics through hands-on experiments with our futuristic circuit simulator. Build, test, and understand electronic circuits in an immersive environment.</p>
+      <a href="#" class="cta-button">Start Learning Now <i class="fas fa-arrow-right"></i></a>
+    </section>
+    
+    <div class="lessons-grid">
+      <div class="lesson-card">
+        <div class="card-header">
+          <h2><i class="fas fa-lightbulb"></i> Lighting up an LED</h2>
+        </div>
+        <div class="card-content">
+          <img src="https://cdn-learn.adafruit.com/guides/images/000/003/226/medium800/led_circuit.jpg?1565990303" alt="LED circuit schematic" class="circuit-img">
+          <p>The battery powers the LED. The resistor keeps it safe by limiting the current. Learn how to calculate the proper resistor value for any LED.</p>
+          
+          <div class="interactive-area">
+            <div class="simulation">
+              <div class="circuit-demo">
+                <svg width="100%" height="100%" viewBox="0 0 300 200">
+                  <!-- Battery -->
+                  <rect x="50" y="80" width="20" height="40" fill="#ddd" stroke="#fff"/>
+                  <line x1="50" y1="80" x2="70" y2="80" stroke="#fff" stroke-width="2"/>
+                  <line x1="50" y1="120" x2="70" y2="120" stroke="#fff" stroke-width="2"/>
+                  
+                  <!-- Wires -->
+                  <line x1="70" y1="100" x2="100" y2="100" stroke="#00d8ff" stroke-width="3" class="wire"/>
+                  <line x1="180" y1="100" x2="210" y2="100" stroke="#00d8ff" stroke-width="3" class="wire"/>
+                  <line x1="240" y1="100" x2="270" y2="100" stroke="#00d8ff" stroke-width="3" class="wire"/>
+                  
+                  <!-- Resistor -->
+                  <rect x="100" y="85" width="80" height="30" fill="#333" stroke="#fff" stroke-width="2"/>
+                  <line x1="120" y1="85" x2="120" y2="115" stroke="#ffcc00" stroke-width="2"/>
+                  <line x1="140" y1="85" x2="140" y2="115" stroke="#ffcc00" stroke-width="2"/>
+                  <line x1="160" y1="85" x2="160" y2="115" stroke="#ffcc00" stroke-width="2"/>
+                  
+                  <!-- LED -->
+                  <polygon points="210,80 240,100 210,120" fill="rgba(255,204,0,0.7)" stroke="#fff" stroke-width="2" class="led"/>
+                  <line x1="210" y1="100" x2="205" y2="100" stroke="#fff" stroke-width="2"/>
+                  <line x1="240" y1="100" x2="245" y2="100" stroke="#fff" stroke-width="2"/>
+                  
+                  <!-- Return wire -->
+                  <line x1="270" y1="100" x2="270" y2="150" stroke="#00d8ff" stroke-width="3" class="wire"/>
+                  <line x1="270" y1="150" x2="50" y2="150" stroke="#00d8ff" stroke-width="3" class="wire"/>
+                  <line x1="50" y1="150" x2="50" y2="120" stroke="#00d8ff" stroke-width="3" class="wire"/>
+                </svg>
+              </div>
+            </div>
+            <div class="controls">
+              <button class="btn" id="led-details">Details</button>
+              <button class="btn btn-primary" id="led-simulate">Simulate</button>
+            </div>
+            <div class="progress">
+              <span>Progress</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 30%"></div>
+              </div>
+              <span>30%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="lesson-card">
+        <div class="card-header">
+          <h2><i class="fas fa-volume-up"></i> Simple Audio Amplifier</h2>
+        </div>
+        <div class="card-content">
+          <img src="https://www.electronics-tutorials.ws/amplifier/amp13.gif" alt="Audio amplifier schematic" class="circuit-img">
+          <p>The transistor makes the weak audio signal strong enough to drive a speaker. Understand how amplification works and how to design your own audio circuits.</p>
+          
+          <div class="interactive-area">
+            <div class="simulation">
+              <p>Audio waveform visualization will appear here</p>
+            </div>
+            <div class="controls">
+              <button class="btn" id="amp-details">Details</button>
+              <button class="btn btn-primary" id="amp-simulate">Simulate</button>
+            </div>
+            <div class="progress">
+              <span>Progress</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 10%"></div>
+              </div>
+              <span>10%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="lesson-card">
+        <div class="card-header">
+          <h2><i class="fas fa-cogs"></i> Switch-Controlled Motor</h2>
+        </div>
+        <div class="card-content">
+          <img src="https://www.build-electronic-circuits.com/wp-content/uploads/2013/09/dc-motor-circuit.png" alt="Motor circuit schematic" class="circuit-img">
+          <p>The switch controls whether the motor spins or stays off. Learn about motor control circuits and how to implement different control mechanisms.</p>
+          
+          <div class="interactive-area">
+            <div class="simulation">
+              <p>Motor control simulation will appear here</p>
+            </div>
+            <div class="controls">
+              <button class="btn" id="motor-details">Details</button>
+              <button class="btn btn-primary" id="motor-simulate">Simulate</button>
+            </div>
+            <div class="progress">
+              <span>Progress</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 5%"></div>
+              </div>
+              <span>5%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>Flux Circuit Academy © 2023 | A Futuristic Electronics Learning Platform</p>
+    <p>This is a demo interface. Icons by Font Awesome. Circuit images from educational resources.</p>
+  </footer>
+
+  <script>
+    // Simple simulation for the LED circuit
+    document.getElementById('led-simulate').addEventListener('click', function() {
+      const led = document.querySelector('.led');
+      const wires = document.querySelectorAll('.wire');
+      
+      // Visual effect for simulation
+      this.classList.add('active');
+      this.textContent = 'Running...';
+      
+      // Animate the LED
+      led.style.fill = 'rgba(255,204,0,0.9)';
+      led.style.filter = 'drop-shadow(0 0 8px yellow)';
+      
+      // Animate wires with current flow
+      wires.forEach(wire => {
+        wire.style.stroke = '#00ff9d';
+        wire.style.strokeWidth = '4';
+        wire.style.filter = 'drop-shadow(0 0 3px #00ff9d)';
+      });
+      
+      // Reset after 2 seconds
+      setTimeout(() => {
+        led.style.fill = 'rgba(255,204,0,0.7)';
+        led.style.filter = 'none';
+        
+        wires.forEach(wire => {
+          wire.style.stroke = '#00d8ff';
+          wire.style.strokeWidth = '3';
+          wire.style.filter = 'none';
+        });
+        
+        this.classList.remove('active');
+        this.textContent = 'Simulate';
+      }, 2000);
+    });
+    
+    // Add similar functionality for the other buttons
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+      if (btn.id !== 'led-simulate') {
+        btn.addEventListener('click', function() {
+          alert('Simulation activated! This would launch a more complex simulation in a full implementation.');
+        });
+      }
+    });
+    
+    // Details buttons
+    document.querySelectorAll('.btn:not(.btn-primary)').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const lesson = this.closest('.lesson-card').querySelector('h2').textContent;
+        alert(`Detailed explanation for ${lesson} would appear here.`);
+      });
+    });
+  </script>
+</body>
+</html>
